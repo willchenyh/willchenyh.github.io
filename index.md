@@ -1,4 +1,4 @@
-## Data Science Portfolio of Yuhan (Will) Chen
+## Data Science Portfolio
 
 You just found Will's data science portfolio. Hope you enjoy it and let me know what you think!
 
