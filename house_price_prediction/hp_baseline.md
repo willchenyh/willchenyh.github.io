@@ -1,9 +1,15 @@
-## Data Science Portfolio
+## House Price Predicition
 
-You just found Will's data science portfolio. Hope you enjoy it and let me know what you think!
+Predicition on house prices with Ames Housing dataset.
+Kaggle competition page: https://www.kaggle.com/c/house-prices-advanced-regression-techniques
 
-### Project List
-- [#01 House Price Prediction](house_price_prediction/hp_baseline.md).
+### Project Steps
+- Step 1: Understand Data
+- Step 2: Create Baseline Score
+- Step 3: Feature Engineering
+- Step 4: Explore Linear Models
+- Step 5: Explore Tree Based Models
+- Step 6: Stacked Models
 
 ### Markdown (Example)
 
