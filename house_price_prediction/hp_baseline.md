@@ -40,10 +40,22 @@ I picked the most basic **linear regression** model (available in sklearn) first
 
 Now let's take a closer look of the features. The main goal of this step is to remove outliers, understand and fill in the NA values, extract and create new features, and transform features if necessary. 
 
-Let's start with **outliers**. The dataset ![documentation](https://ww2.amstat.org/publications/jse/v19n3/decock.pdf) suggests removing the data points with **GrLivArea larger than 4000**.
+Let's start with **outliers**. The dataset ![documentation](https://ww2.amstat.org/publications/jse/v19n3/decock.pdf) suggests removing the data points with **GrLivArea larger than 4000**. As we can see from a plot of SalePrice vs GrLivArea plot below, there are four points greater than 4000. Two points at bottom right are true outliers as they are very far away from the main cluster. They represent two houses with large square footage but very cheap prices - possibly they were sold under unusual circumstances. The two points at top right, although far from the main cluster, follow the relation of the two variables based on the main cluster. Nevertheless, they are removed based on the dataset documentation.
 
-Let's start with the **NA values**. After crossing comparing the data and the provided description, I noticed that most of the NA values are probably not "missing data" but contain meaningful information - **the absence of certain feature in the respective houses**. For example, 
+![SalePrice vs GrLivArea](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/saleprice_vs_grlivarea.png?raw=true)
 
+As for the **NA values**, after cross-comparing the data and the provided description, I noticed that most of the NA values are probably not "missing data" but contain meaningful information - **the absence of certain feature in the respective houses**. For example, BsmtQual uses NA to indicate "No basement", and the same goes for GarageType, Alley and so on. For these features, NA values are replaced with "None".
+
+Other features are not as straight-forward. How they are filled in are shown in table below.
+
+Feature | Method to fill in NA
+--- | ---
+LotFrontage | Use medium of the same neighborhood
+Utilities | The test set only has Allpub value, and it has only 2 missing values. It's insignificant, so the feature is removed
+Basement related features (numerical) | Use 0
+Functional | Use "Typ"
+Garage related features (numerical) | use 0
+Other features | Use mode
 
 
 ### Markdown (Example)
