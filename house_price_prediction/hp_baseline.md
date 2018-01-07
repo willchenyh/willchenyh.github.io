@@ -40,7 +40,7 @@ I picked the most basic **linear regression** model (available in sklearn) first
 
 Now let's take a closer look of the features. The main goal of this step is to remove outliers, understand and fill in the NA values, extract and create new features, and transform features if necessary. 
 
-Let's start with **outliers**. The dataset ![documentation](https://ww2.amstat.org/publications/jse/v19n3/decock.pdf) suggests removing the data points with **GrLivArea larger than 4000**. As we can see from a plot of SalePrice vs GrLivArea plot below, there are four points greater than 4000. Two points at bottom right are true outliers as they are very far away from the main cluster. They represent two houses with large square footage but very cheap prices - possibly they were sold under unusual circumstances. The two points at top right, although far from the main cluster, follow the relation of the two variables based on the main cluster. Nevertheless, they are removed based on the dataset documentation.
+Let's start with **outliers**. The dataset [documentation](https://ww2.amstat.org/publications/jse/v19n3/decock.pdf) suggests removing the data points with **GrLivArea larger than 4000**. As we can see from a plot of SalePrice vs GrLivArea plot below, there are four points greater than 4000. Two points at bottom right are true outliers as they are very far away from the main cluster. They represent two houses with large square footage but very cheap prices - possibly they were sold under unusual circumstances. The two points at top right, although far from the main cluster, follow the relation of the two variables based on the main cluster. Nevertheless, they are removed based on the dataset documentation.
 
 ![SalePrice vs GrLivArea](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/saleprice_vs_grlivarea.png?raw=true)
 
@@ -48,14 +48,24 @@ As for the **NA values**, after cross-comparing the data and the provided descri
 
 Other features are not as straight-forward. How they are filled in are shown in table below.
 
-Feature | Method to fill in NA
+**Feature** | **Method to fill in NA**
 --- | ---
 LotFrontage | Use medium of the same neighborhood
 Utilities | The test set only has Allpub value, and it has only 2 missing values. It's insignificant, so the feature is removed
 Basement related features (numerical) | Use 0
 Functional | Use "Typ"
-Garage related features (numerical) | use 0
+Garage related features (numerical) | Use 0
 Other features | Use mode
+
+Now all of the NA values are taken care of, we can start more advanced feature engineering. **Some numerical features are supposed to be categorical**, such as MSSubClass, which is the house type. **Some categorical features make more sense with ordinal values**, which I will convert to numbers based on the ratings. For example, PoolQC (pool quality) has values None, Fair, Average, Good, Excellent, and they will be converted to 0, 1, 2, 3, 4 respectively. The reason for this conversion is that the ordinal numbers are meaningful for the regression models we use. 
+
+We can also **create new features** based on the existing features. First, some house functionalities have both quality and condition ratings. They can be multiplied to produce overall scores. Second, total numbers can be produced from multiple features. For example, total square footage of a house can be computed with its basement square footage and above-ground living area. These operations increases the total number of features from 79 to **91**.
+
+Okay. Now the Ridge model gives a better score of 0.1563 - feature engineering is helpful!
+
+### Step 4: Explore Linear Models
+
+
 
 
 ### Markdown (Example)
