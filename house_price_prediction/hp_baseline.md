@@ -1,6 +1,8 @@
 ## House Price Predicition
 
-This is a regression problem with available features of houses to predict house prices. This page documents the steps and thinking process I took to solve this problem. I scored top 10% at the competition. The detailed code is in Jupyter Notebooks in this repository.
+This is a regression problem with available features of houses to predict house prices. This page documents the steps and thinking process I took to solve this problem. I scored **top 10%** at the competition. 
+
+The detailed code is in Jupyter Notebooks in this repository.
 
 Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regression-techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
 
@@ -10,7 +12,7 @@ Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regress
 - Step 3: Feature Engineering
 - Step 4: Explore Linear Models
 - Step 5: Explore Tree Based Models
-- Step 6: Stacked Models
+- Step 6: Explore Stacked Models
 
 ### Step 1: Understand Data
 The data information is given by the competition. The dataset has **2919** entries of vairous information of houses and their respective sale prices. The dataset is split into a training set of 1460 entries and a test set of 1459 entries. Each sample has **79** features, including diverse information, such as total square footage, number of bedrooms, and quality of materials. 
@@ -30,14 +32,21 @@ After discarding features with NAs, there are **45** features remaining. Some of
 
 After basic data cleaning, we can now apply models. The error metric used is **RMSLE (root mean squared log error)** - the square root of mean squared error between log values of prediction and ground truth. The advantage of RMSLE over MSE (mean squared error) or RMSE is that with log this metric takes equal consideration for high and low prices. 
 
-In order to obtain a general and accurate RMSLE from training data, 5-fold cross validation is used. This tools splits the training set into five small sets, and uses one of them as the test set and the rest as training set. The mean RMSLE of all five small test sets is computed.
+In order to obtain a general and accurate RMSLE from training data, **5-fold cross validation** is used. This tools splits the training set into five small sets, and uses one of them as the test set and the rest as training set. The mean RMSLE of all five small test sets is computed.
 
 I picked the most basic **linear regression** model (available in sklearn) first. However, this model raised an error indicating that the prediction contains "infinity" values, which is probably due to the unstableness of the model. Hence, I tried **linear regression with l2-norm regularization** (available in sklearn as **Ridge**) to limit the coefficients. Ridge ran with no issues and gave an RMSLE of **0.1759**, which is better than 1/3 of the competition participants. 
 
+### Step 3: Feature Engineering
+
+Now let's take a closer look of the features. The main goal of this step is to remove outliers, understand and fill in the NA values, extract and create new features, and transform features if necessary. 
+
+Let's start with **outliers**. The dataset ![documentation](https://ww2.amstat.org/publications/jse/v19n3/decock.pdf) suggests removing the data points with **GrLivArea larger than 4000**.
+
+Let's start with the **NA values**. After crossing comparing the data and the provided description, I noticed that most of the NA values are probably not "missing data" but contain meaningful information - **the absence of certain feature in the respective houses**. For example, 
+
+
 
 ### Markdown (Example)
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
 Syntax highlighted code block
@@ -55,7 +64,9 @@ Syntax highlighted code block
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
-```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+```
+
+
 
