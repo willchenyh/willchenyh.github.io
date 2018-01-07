@@ -57,14 +57,14 @@ Utilities | The test set only has Allpub value, and it has only 2 missing values
 Basement related features (numerical) | Use 0
 Functional | Use "Typ"
 Garage related features (numerical) | Use 0
-Other features | Use mode
-
-
+Other features | Use mode  
+  
+  
 Now all of the NA values are taken care of, we can start more advanced feature engineering. **Some numerical features are supposed to be categorical**, such as MSSubClass, which is the house type. **Some categorical features make more sense with ordinal values**, which I will convert to numbers based on the ratings. For example, PoolQC (pool quality) has values None, Fair, Average, Good, Excellent, and they will be converted to 0, 1, 2, 3, 4 respectively. The reason for this conversion is that the ordinal numbers are meaningful for the regression models we use. 
 
 We can also **create new features** based on the existing features. First, some house functionalities have both quality and condition ratings. They can be multiplied to produce overall scores. Second, total numbers can be produced from multiple features. For example, total square footage of a house can be computed with its basement square footage and above-ground living area. These operations increases the total number of features from 79 to **91**.
 
-Okay. Now the Ridge model gives a better score of 0.1563 - feature engineering is helpful!
+Okay. Now the Ridge model gives a better score of **0.1563** - feature engineering is helpful!
 
 ### Step 4: Explore Linear Models
 
