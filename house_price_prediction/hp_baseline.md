@@ -1,7 +1,8 @@
 ## House Price Predicition
 
-Predicition on house prices with Ames Housing dataset.
-Kaggle competition page: https://www.kaggle.com/c/house-prices-advanced-regression-techniques
+This is a regression problem with available features of houses to predict house prices. This page documents the steps and thinking process I took to solve this problem. I scored top 10% at the competition. The detailed code is in Jupyter Notebooks in this repository.
+
+Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regression-techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
 
 ### Project Steps
 - Step 1: Understand Data
@@ -10,6 +11,14 @@ Kaggle competition page: https://www.kaggle.com/c/house-prices-advanced-regressi
 - Step 4: Explore Linear Models
 - Step 5: Explore Tree Based Models
 - Step 6: Stacked Models
+
+### Step 1: Understand Data
+The data information is given by the competition. The dataset has 2919 entries of vairous information of houses and their respective sale prices. The dataset is split into a training set of 1460 entries and a test set of 1459 entries. Each sample has 79 features, including diverse information, such as total square footage, number of bedrooms, and quality of materials. 
+
+### Step 2: Create Baseline Score
+First, I want to generate a baseline score using a basic model and mininum feature engineering. Future improvements can then be made based on the score.
+
+
 
 ### Markdown (Example)
 
