@@ -1,6 +1,6 @@
-[Go back to the Main Page](../index.md)
-
 ## House Price Predicition
+
+[Go back to the Main Page](../index.md)
 
 This is a regression problem with available features of houses to predict house prices. This page documents the steps and thinking process I took to solve this problem. I scored **top 10%** at the competition. 
 
@@ -67,6 +67,22 @@ We can also **create new features** based on the existing features. First, some 
 Okay. Now the Ridge model gives a better score of **0.1563** - feature engineering is helpful!
 
 ### Step 4: Explore Linear Models
+
+In order to improve the prediction score, we can try different models. For this step, we are going to explore linear regression models.
+
+**Linear models** are intuitive - they form linear relations between independent features and the target variable. Its formula and an example plot are shown below. The models will compute the best values of w's (the **coefficients of features**). The models are usually evaluated with MSE, as linear regression essentially can be solved as a least squares problem.
+
+![linear regression formula](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/linear_regression_formula.jpg?raw=true)
+
+![linear regression example](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/400px-Linear_regression.svg.png)
+
+#### Regularization
+##### Regularization
+###### Regularization
+
+We encountered a problem in step 2 when we used a simple linear regression model. The issue was probably caused by large coefficients, which can be a common issue for linear regression models as the coefficient sizes are not bounded. Therefore, it is often encouraged to use regularization with the models to limit the coefficient sizes. Two common **regularization techniques** are L1-norm (available in sklearn as Lasso) and L2-norm (available in sklearn as Ridge). 
+
+
 
 
 
