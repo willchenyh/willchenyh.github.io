@@ -58,8 +58,9 @@ Basement related features (numerical) | Use 0
 Functional | Use "Typ"
 Garage related features (numerical) | Use 0
 Other features | Use mode  
-  
-  
+   
+   
+
 Now all of the NA values are taken care of, we can start more advanced feature engineering. **Some numerical features are supposed to be categorical**, such as MSSubClass, which is the house type. **Some categorical features make more sense with ordinal values**, which I will convert to numbers based on the ratings. For example, PoolQC (pool quality) has values None, Fair, Average, Good, Excellent, and they will be converted to 0, 1, 2, 3, 4 respectively. The reason for this conversion is that the ordinal numbers are meaningful for the regression models we use. 
 
 We can also **create new features** based on the existing features. First, some house functionalities have both quality and condition ratings. They can be multiplied to produce overall scores. Second, total numbers can be produced from multiple features. For example, total square footage of a house can be computed with its basement square footage and above-ground living area. These operations increases the total number of features from 79 to **91**.
@@ -72,18 +73,28 @@ In order to improve the prediction score, we can try different models. For this 
 
 **Linear models** are intuitive - they form linear relations between independent features and the target variable. Its formula and an example plot are shown below. The models will compute the best values of w's (the **coefficients of features**). The models are usually evaluated with MSE, as linear regression essentially can be solved as a least squares problem.
 
-![linear regression formula](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/linear_regression_formula.jpg?raw=true)
+![linear regression formula](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/linear_regression_formula.JPG?raw=true)
 
 ![linear regression example](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/400px-Linear_regression.svg.png)
 
+Linear regression has some **assumptions** for it to work properly. They are listed on [the Wikipedia page](https://en.wikipedia.org/wiki/Linear_regression#Assumptions). The assumption of **homoscedasticity** is interesting to check. Homoscedasticity is a property of constant variance, meaning the residual (difference of prediction and truth value) variance should be constant for small and large values of the target variable. This can be obtained from **residuals of a normal distribution**, which happens when variables are normal distributions. Sometimes variables are skewed normal distributions and with the help of some transformations they can be converted to Gaussian. 
+
+In order to check for skewness, we can use the skew function in scipy. A positive return value indicate a right-skewed distribution (right tail is longer) and a negative return value indicate a left-skewed distribution. A right-skewed distribution can be converted to Gaussian with a log transformation. I log-trainsformed the target variable SalePrice and the result is shown below:
+
+![saleprice plot]()
+![saleprice log transformed plot]()
+
 #### Regularization
-##### Regularization
-###### Regularization
 
-We encountered a problem in step 2 when we used a simple linear regression model. The issue was probably caused by large coefficients, which can be a common issue for linear regression models as the coefficient sizes are not bounded. Therefore, it is often encouraged to use regularization with the models to limit the coefficient sizes. Two common **regularization techniques** are L1-norm (available in sklearn as Lasso) and L2-norm (available in sklearn as Ridge). 
+We encountered a problem in step 2 when we used a simple linear regression model. The issue was probably caused by large coefficients, which can be a common issue for linear regression models as the coefficient sizes are not bounded. Therefore, it is often encouraged to use regularization with the models to limit the coefficient sizes. Two common **regularization techniques** are L1-norm and L2-norm (available in sklearn as Ridge). 
 
+The **L1-norm regularization** for linear regression is available in sklearn as Lasso, whose formula is shown below:
 
+![lasso formula](http://scikit-learn.org/stable/_images/math/07c30d8004d4406105b2547be4f3050048531656.png)
 
+Lasso adds the absolute value of coefficients to the formula to be minimized, which prevents the coefficients to become too large. Running Lasso with default function parameters gives us a prediction score of 
+
+Another advantage Lasso has is that it works well in sparse feature space by eliminating useless features. 
 
 
 
