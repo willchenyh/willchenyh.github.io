@@ -77,9 +77,11 @@ Okay. Now the Ridge model gives a better score of **0.1563** - feature engineeri
 
 ### Step 4: Explore Linear Models
 
-In order to improve the prediction score, we can try different models. For this step, we are going to explore linear regression models.
+In order to improve the prediction score, we can try different models. Linear regression models are a good place to start. 
 
-**Linear models** are intuitive - they form linear relations between independent features and the target variable. Its formula and an example plot are shown below. The models will compute the best values of w's (the **coefficients of features**). The models are usually evaluated with MSE, as linear regression essentially can be solved as a least squares problem.
+**Linear models** are intuitive - they form linear relations between independent features and the target variable. For this problem, intuitively, we would hypothesize that house prices should follow a linear relation with features. For example, a house with two bedroom and a pool should be more expensive than a house with one bedroom and no pool.
+
+The formula of the most basic linear regression and an example plot are shown below. The models will compute the best values of w's (the **coefficients of features**). The models are usually evaluated with MSE, as linear regression essentially can be solved as a least squares problem.
 
 ![linear regression formula](http://scikit-learn.org/stable/_images/math/334dd847bce79ed52a760f02b3efd8faefdb6e8b.png)
 
@@ -136,6 +138,25 @@ Overall, the best linear model is Lasso with a score of 0.1105.
 
 ### Step 5: Explore Tree Based Models
 
+Another common group of models is the **tree based models**. In this step, I will go over Decision Tree, Random Forest, and Gradient Tree Boosting. 
+
+If you are familiar with data structures, you've probably heard of Binary Search Tree. For BST in the case of numbers, using the root number as a threshold, a smaller number goes to the left branch, and a larger number goes to the right. Similarly for a **Decision Tree**, it splits data based on thresholds of feature values. Each leaf contains a small collection of data points that satisfies all the rules going down its branch. When a new data point to be predicted is introduced to a trained decision tree, it will go through the rules and land on the leaf that best fit the point's feature values. The predicted value will then be the mean of the leaf points. 
+
+Here's a graph example of a Decision Tree.
+
+![decision tree](https://i.ytimg.com/vi/ydvnVw80I_8/maxresdefault.jpg)
+
+The Decision Tree, after grid search, gives a prediction score of **0.1987**, which is even worse than our baseline. 
+
+The results of a Decision Tree model really depends on the rules generalized for splitting branches. Chances are you may get different splitting rules if you run a deep model multiple times. In order to make a more general model, **Random Forest** is a good choice. The name tells you what a Random Forest is - a group of Decision Trees. The advantage of Random Forest is that by averaging over the results of all the Decision Trees, it can **reduce the variance** of a Decision Tree model and give a generally more accurate result. Theoretically, one would be incentivized to use deep trees (low bias and high variance) over shallow trees (high bias and low variance).
+
+![random forest](https://s3.ap-south-1.amazonaws.com/techleer/113.png)
+
+The Random Forest gives a much better result of **0.1352** with 3000 Trees. It generalizes much better than a single Decision Tree. I used up to 3000 trees in grid search because it takes a while to run large number of trees. It can possibly perform better if using more Trees, but I don't think it would better than the linear models we used since from 1000 to 3000 the improvement was small, on a scale of 10e^-3.
+
+On the other hand, **Gradient Tree Boosting** "stacks" multiple Trees on top of each other - single Decision Trees run on the values produced by previous Trees. This model utilizes **Gradient Descent** method to follow the gradient of the given loss function. Gradient Descent is an iterative method to find minimum point of a loss function, which is MSE for this problem. Intuitively, for each Tree in the model, we step forward in the direction of gradient computed by the previous Tree. The gradient is computed as the mean of gradients of data points in a leaf. Hence, The Gradient Tree Boosting is a complex model to **reduce bias**. Theoretically, one would be incentivized to use shallow trees (high bias and low variance).
+
+The Gradient Tree Boosting gives an even better score of **0.1188**. As hypothesized, it worked best with shallow trees of two levels. 
 
 
 
@@ -162,4 +183,13 @@ For more details see [GitHub Flavored Markdown](https://guides.github.com/featur
 ```
 
 
+### Picture Credit
+https://s3.ap-south-1.amazonaws.com/techleer/113.png
+https://i.ytimg.com/vi/ydvnVw80I_8/maxresdefault.jpg
+http://scikit-learn.org/stable/_images/math/51443eb62398fc5253e0a0d06a5695686e972d08.png
+http://scikit-learn.org/stable/_images/math/48dbdad39c89539c714a825c0c0d5524eb526851.png
+http://scikit-learn.org/stable/_images/math/07c30d8004d4406105b2547be4f3050048531656.png
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/400px-Linear_regression.svg.png
+http://scikit-learn.org/stable/_images/math/334dd847bce79ed52a760f02b3efd8faefdb6e8b.png
+http://brettromero.com/wordpress/wp-content/uploads/2016/03/OHE-Image.png
 
