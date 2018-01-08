@@ -9,6 +9,7 @@ The detailed code is in Jupyter Notebooks in this repository.
 Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regression-techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
 
 ### Project Steps
+
 - Step 1: Understand Data
 - Step 2: Create Baseline Score
 - Step 3: Feature Engineering
@@ -17,9 +18,11 @@ Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regress
 - Step 6: Explore Stacked Models
 
 ### Step 1: Understand Data
+
 The data information is given by the competition. The dataset has **2919** entries of vairous information of houses and their respective sale prices. The dataset is split into a training set of 1460 entries and a test set of 1459 entries. Each sample has **79** features, including diverse information, such as total square footage, number of bedrooms, and quality of materials. 
 
 ### Step 2: Create Baseline Score
+
 I want to generate a baseline score using a basic model and mininum feature engineering. Future improvements can then be made based on this score.
 
 The training and testing sets are **concatenated** so that data processing and transformation can be performed together. 
@@ -34,7 +37,7 @@ After discarding features with NAs, there are **45** features remaining. Some of
 
 After basic data cleaning, we can now apply models. The error metric used is **RMSLE (root mean squared log error)** - the square root of mean squared error between log values of prediction and ground truth. The advantage of RMSLE over MSE (mean squared error) or RMSE is that with log this metric takes equal consideration for high and low prices. 
 
-In order to obtain a general and accurate RMSLE from training data, **5-fold cross validation** is used. This tools splits the training set into five small sets, and uses one of them as the test set and the rest as training set. The mean RMSLE of all five small test sets is computed.
+In order to obtain a general and accurate RMSLE from training data, **3-fold cross validation** is used. This tools splits the training set into three small sets, and uses one of them as the test set and the rest as training set. The mean RMSLE of all five small test sets is computed.
 
 I picked the most basic **linear regression** model (available in sklearn) first. However, this model raised an error indicating that the prediction contains "infinity" values, which is probably due to the unstableness of the model. Hence, I tried **linear regression with l2-norm regularization** (available in sklearn as **Ridge**) to limit the coefficients. Ridge ran with no issues and gave an RMSLE of **0.1759**, which is better than 1/3 of the competition participants. 
 
@@ -42,9 +45,13 @@ I picked the most basic **linear regression** model (available in sklearn) first
 
 Now let's take a closer look of the features. The main goal of this step is to remove outliers, understand and fill in the NA values, extract and create new features, and transform features if necessary. 
 
+#### Outliers
+
 Let's start with **outliers**. The dataset [documentation](https://ww2.amstat.org/publications/jse/v19n3/decock.pdf) suggests removing the data points with **GrLivArea larger than 4000**. As we can see from a plot of SalePrice vs GrLivArea plot below, there are four points greater than 4000. Two points at bottom right are true outliers as they are very far away from the main cluster. They represent two houses with large square footage but very cheap prices - possibly they were sold under unusual circumstances. The two points at top right, although far from the main cluster, follow the relation of the two variables based on the main cluster. Nevertheless, they are removed based on the dataset documentation.
 
 ![SalePrice vs GrLivArea](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/saleprice_vs_grlivarea.png?raw=true)
+
+#### Filling in NAs
 
 As for the **NA values**, after cross-comparing the data and the provided description, I noticed that most of the NA values are probably not "missing data" but contain meaningful information - **the absence of certain feature in the respective houses**. For example, BsmtQual uses NA to indicate "No basement", and the same goes for GarageType, Alley and so on. For these features, NA values are replaced with "None".
 
@@ -58,7 +65,8 @@ Basement related features (numerical) | Use 0
 Functional | Use "Typ"
 Garage related features (numerical) | Use 0
 Other features | Use mode  
-   
+--- | ---
+
    
 
 Now all of the NA values are taken care of, we can start more advanced feature engineering. **Some numerical features are supposed to be categorical**, such as MSSubClass, which is the house type. **Some categorical features make more sense with ordinal values**, which I will convert to numbers based on the ratings. For example, PoolQC (pool quality) has values None, Fair, Average, Good, Excellent, and they will be converted to 0, 1, 2, 3, 4 respectively. The reason for this conversion is that the ordinal numbers are meaningful for the regression models we use. 
@@ -77,24 +85,57 @@ In order to improve the prediction score, we can try different models. For this 
 
 ![linear regression example](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/400px-Linear_regression.svg.png)
 
+#### Log Transformation
+
 Linear regression has some **assumptions** for it to work properly. They are listed on [the Wikipedia page](https://en.wikipedia.org/wiki/Linear_regression#Assumptions). The assumption of **homoscedasticity** is interesting to check. Homoscedasticity is a property of constant variance, meaning the residual (difference of prediction and truth value) variance should be constant for small and large values of the target variable. This can be obtained from **residuals of a normal distribution**, which happens when variables are normal distributions. Sometimes variables are skewed normal distributions and with the help of some transformations they can be converted to Gaussian. 
 
-In order to check for skewness, we can use the skew function in scipy. A positive return value indicate a right-skewed distribution (right tail is longer) and a negative return value indicate a left-skewed distribution. A right-skewed distribution can be converted to Gaussian with a log transformation. I log-trainsformed the target variable SalePrice and the result is shown below:
+In order to check for skewness, we can use the skew function in scipy. A positive return value indicate a right-skewed distribution (right tail is longer) and a negative return value indicate a left-skewed distribution. A right-skewed distribution can be converted to Gaussian with a **log transformation**. It turns out that the target variable SalePrice is right skewed. I log-trainsformed SalePrice and the result is shown below:
 
-![saleprice plot]()
-![saleprice log transformed plot]()
+![saleprice plot](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/saleprice.png?raw=true)
+![saleprice log transformed plot](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/saleprice_log.png?raw=true)
+
+Looks pretty good! Now we can do the same for the independent variables. I set the skewness threshold as 0.6 - I will apply log transformation if the skewness is greater than 0.6. It was found that 35 out of 66 numerical features are right skewed.
+
+Now let's move on to exploring different models.
 
 #### Regularization
 
-We encountered a problem in step 2 when we used a simple linear regression model. The issue was probably caused by large coefficients, which can be a common issue for linear regression models as the coefficient sizes are not bounded. Therefore, it is often encouraged to use regularization with the models to limit the coefficient sizes. Two common **regularization techniques** are L1-norm and L2-norm (available in sklearn as Ridge). 
+We encountered a problem in step 2 when we used a simple linear regression model. The issue was probably caused by large coefficients, which can be a common issue for linear regression models as the coefficient sizes are not bounded. Therefore, it is often encouraged to use regularization with models to limit the coefficient sizes. Two common **regularization techniques** are L1-norm and L2-norm. 
 
-The **L1-norm regularization** for linear regression is available in sklearn as Lasso, whose formula is shown below:
+The **L1-norm regularization** for linear regression is available in sklearn as **Lasso**, whose formula is shown below:
 
 ![lasso formula](http://scikit-learn.org/stable/_images/math/07c30d8004d4406105b2547be4f3050048531656.png)
 
-Lasso adds the absolute value of coefficients to the formula to be minimized, which prevents the coefficients to become too large. Running Lasso with default function parameters gives us a prediction score of 
+Lasso adds the **absolute value of coefficients** as penalty to the formula to be minimized, which prevents the coefficients to become too large. Running Lasso with default function parameters gives us a prediction score of **0.2518**. Hmmm this is much worse than our previous score using Ridge - should we eliminate this model? Wait! This score was obtained using default function parameters. We should always tune the function parameters for specific problems. Maybe we will get a good score afterwards.
 
-Another advantage Lasso has is that it works well in sparse feature space by eliminating useless features. 
+The Lasso function has a parameter **alpha**, which is the coefficient of the penalty |w| in the loss function mentioned above. We can use **grid search** (available in sklearn) to find the optimal alpha value. Turns out the best alpha is **0.0005** and the new prediction score is **0.1106**. Wow, thats a huge improvement!
+
+Another advantage Lasso has is that it works well in sparse feature space by eliminating useless features. Out of 258 features, only **98 have non-zero coefficients**, meaning only 98 features are considered useful.
+
+The **L2-norm regularization** for linear regression is available in sklearn as **Ridge**, whose formula is shown below:
+
+![ridge formula](http://scikit-learn.org/stable/_images/math/48dbdad39c89539c714a825c0c0d5524eb526851.png)
+
+Ridge adds the **squared value of coefficients** as penalty to the formula to be minimized, which also prevents the coefficients to become to large. They should have similar effects of regularization intuitively and as for which one is better really depends on specific problems. Using grid search, the best alpha obtained is 8 and prediction score is **0.1134**.
+
+There is another model with L2 regularication called **Kernel Ridge Regression**. I will use polynomial kernel, which makes the model behave as a **polynomial regression model**. Polynomial regression takes in features in their nth degree polynomials and creates a more complex relation between features and target variable. Turns out it gives a higher error than Ridge, with **0.1158**.
+
+We can also use both L1 and L2 regularization, which is available in sklearn as ElasticNet. The formula is shown below:
+
+![elasticnet formula](http://scikit-learn.org/stable/_images/math/51443eb62398fc5253e0a0d06a5695686e972d08.png)
+
+Using grid search, the best parameters are alpha=0.0005 and l1_ratio=0.9, and the prediction score is **0.1106**.
+
+#### Preprocessing Technique
+
+Sometimes it is helpful to preprocess data before applying models. Usually the features are scaled to zero mean and unit variance. Another way is to scale based on median and interquartile range (available in sklearn as RobustScaler). The second method will have less effect from outliers (extreme values). After I applied this technique, all of the models showed improvements. Lasso and ElasticNet have minimal improvement (on a scale of 10^-5); Ridge and Kernel Ridge made improvements on a scale of 10^-3.
+
+#### Overall
+
+Overall, the best linear model is Lasso with a score of 0.1105.
+
+### Step 5: Explore Tree Based Models
+
 
 
 
