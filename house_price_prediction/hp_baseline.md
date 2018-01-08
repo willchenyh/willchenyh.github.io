@@ -65,10 +65,10 @@ Basement related features (numerical) | Use 0
 Functional | Use "Typ"
 Garage related features (numerical) | Use 0
 Other features | Use mode  
---- | ---
-
+ | 
    
-
+   
+   
 Now all of the NA values are taken care of, we can start more advanced feature engineering. **Some numerical features are supposed to be categorical**, such as MSSubClass, which is the house type. **Some categorical features make more sense with ordinal values**, which I will convert to numbers based on the ratings. For example, PoolQC (pool quality) has values None, Fair, Average, Good, Excellent, and they will be converted to 0, 1, 2, 3, 4 respectively. The reason for this conversion is that the ordinal numbers are meaningful for the regression models we use. 
 
 We can also **create new features** based on the existing features. First, some house functionalities have both quality and condition ratings. They can be multiplied to produce overall scores. Second, total numbers can be produced from multiple features. For example, total square footage of a house can be computed with its basement square footage and above-ground living area. These operations increases the total number of features from 79 to **91**.
@@ -81,7 +81,7 @@ In order to improve the prediction score, we can try different models. For this 
 
 **Linear models** are intuitive - they form linear relations between independent features and the target variable. Its formula and an example plot are shown below. The models will compute the best values of w's (the **coefficients of features**). The models are usually evaluated with MSE, as linear regression essentially can be solved as a least squares problem.
 
-![linear regression formula](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/linear_regression_formula.JPG?raw=true)
+![linear regression formula](http://scikit-learn.org/stable/_images/math/334dd847bce79ed52a760f02b3efd8faefdb6e8b.png)
 
 ![linear regression example](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/400px-Linear_regression.svg.png)
 
@@ -108,7 +108,7 @@ The **L1-norm regularization** for linear regression is available in sklearn as 
 
 Lasso adds the **absolute value of coefficients** as penalty to the formula to be minimized, which prevents the coefficients to become too large. Running Lasso with default function parameters gives us a prediction score of **0.2518**. Hmmm this is much worse than our previous score using Ridge - should we eliminate this model? Wait! This score was obtained using default function parameters. We should always tune the function parameters for specific problems. Maybe we will get a good score afterwards.
 
-The Lasso function has a parameter **alpha**, which is the coefficient of the penalty |w| in the loss function mentioned above. We can use **grid search** (available in sklearn) to find the optimal alpha value. Turns out the best alpha is **0.0005** and the new prediction score is **0.1106**. Wow, thats a huge improvement!
+The Lasso function has a parameter **alpha**, which is the coefficient of the penalty w in the loss function mentioned above. We can use **grid search** (available in sklearn) to find the optimal alpha value. Turns out the best alpha is **0.0005** and the new prediction score is **0.1106**. Wow, thats a huge improvement!
 
 Another advantage Lasso has is that it works well in sparse feature space by eliminating useless features. Out of 258 features, only **98 have non-zero coefficients**, meaning only 98 features are considered useful.
 
