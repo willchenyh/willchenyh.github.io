@@ -2,11 +2,14 @@
 
 [Go back to the Main Page](index.md)
 
-This is a regression problem with available features of houses to predict house prices. This page documents the steps and thinking process I took to solve this problem. I scored **top 10%** at the competition. 
+This is a regression problem with available features of houses to predict house prices. I scored **top 10%** at the competition. Below is a plot of prediction scores. This page documents the steps and thinking process I took to solve this problem. 
+
+![prediction scores](https://github.com/willchenyh/willchenyh.github.io/blob/master/house_price_prediction/prediction_scores.png?raw=true)
 
 The detailed code is in Jupyter Notebooks in [this repository](https://github.com/willchenyh/house_price_prediction/). I created a notebook for each project step as below.
 
 Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regression-techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
+
 
 ### Project Steps
 
@@ -116,7 +119,7 @@ Lasso adds the **absolute value of coefficients** as penalty to the formula to b
 
 The Lasso function has a parameter **alpha**, which is the coefficient of the penalty w in the loss function mentioned above. We can use **grid search** (available in sklearn) to find the optimal alpha value. Turns out the best alpha is **0.0005** and the new prediction score is **0.1106**. Wow, thats a huge improvement!
 
-Another advantage Lasso has is that it works well in sparse feature space by eliminating useless features. Out of 258 features, only **98 have non-zero coefficients**, meaning only 98 features are considered useful.
+Another advantage Lasso has is **feature selection**. It works well in sparse feature space by eliminating useless features. Out of 258 features, only **98 have non-zero coefficients**, meaning only 98 features are considered useful.
 
 The **L2-norm regularization** for linear regression is available in sklearn as **Ridge**, whose formula is shown below:
 
@@ -135,10 +138,6 @@ Using grid search, the best parameters are alpha=0.0005 and l1_ratio=0.9, and th
 #### Preprocessing Technique
 
 Sometimes it is helpful to preprocess data before applying models. Usually the features are scaled to zero mean and unit variance. Another way is to scale based on median and interquartile range (available in sklearn as RobustScaler). The second method will have less effect from outliers (extreme values). After I applied this technique, all of the models showed improvements. Lasso and ElasticNet have minimal improvement (on a scale of 10^-5); Ridge and Kernel Ridge made improvements on a scale of 10^-3.
-
-#### Overall
-
-Overall, the best linear model is Lasso with a score of 0.1105.
 
 
 ### Step 5: Explore Tree Based Models
