@@ -4,7 +4,9 @@ You just found Will's data science portfolio. Hope you enjoy it and let me know 
 
 ## About Me
 I'm a Master's student in Machine Learning at University of California, San Diego.
-[![LinkedIn](https://www.shareicon.net/download/2017/06/30/888065_logo_512x512.png = 20x20)](https://www.linkedin.com/in/willchenyh/)
+
+[![LinkedIn](https://www.northeastern.edu/careers/wp-content/uploads/2012/10/CBpFkPaz.png = 20x20)](https://www.linkedin.com/in/willchenyh/)
+[![Email](http://icons.iconarchive.com/icons/igh0zt/ios7-style-metro-ui/128/MetroUI-Other-Mail-icon.png = 20x20)](mailto:yuc143@eng.ucsd.edu)
 
 ## Project List
 
