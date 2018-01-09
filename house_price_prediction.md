@@ -4,7 +4,7 @@
 
 This is a regression problem with available features of houses to predict house prices. This page documents the steps and thinking process I took to solve this problem. I scored **top 10%** at the competition. 
 
-The detailed code is in Jupyter Notebooks in this repository.
+The detailed code is in Jupyter Notebooks in [this repository](https://github.com/willchenyh/house_price_prediction/). I created a notebook for each project step as below.
 
 Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regression-techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
 

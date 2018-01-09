@@ -1,6 +1,10 @@
-## Data Science Portfolio
+## Will's Portfolio
 
 You just found Will's data science portfolio. Hope you enjoy it and let me know what you think!
+
+## About Me
+I'm a Master's student in Machine Learning at University of California, San Diego.
+[![LinkedIn](https://www.shareicon.net/download/2017/06/30/888065_logo_512x512.png = 20x20)](https://www.linkedin.com/in/willchenyh/)
 
 ## Project List
 
@@ -9,27 +13,5 @@ You just found Will's data science portfolio. Hope you enjoy it and let me know 
 
 ### Computer Vision
 - #01 Face Recognition with CNN and Raspberry Pi (Coming soon)
-
-### Markdown (Example)
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-```
-
 
 
