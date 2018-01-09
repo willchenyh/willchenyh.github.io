@@ -11,7 +11,7 @@ I'm a Master's student in Machine Learning at University of California, San Dieg
 ## Project List
 
 ### Data Science
-- [#01 House Price Prediction](house_price_prediction/house_price_prediction.md)
+- [#01 House Price Prediction](house_price_prediction.md)
 
 ### Computer Vision
 - #01 Face Recognition with CNN and Raspberry Pi (Coming soon)

@@ -1,6 +1,6 @@
 ## House Price Predicition
 
-[Go back to the Main Page](../index.md)
+[Go back to the Main Page](index.md)
 
 This is a regression problem with available features of houses to predict house prices. This page documents the steps and thinking process I took to solve this problem. I scored **top 10%** at the competition. 
 
