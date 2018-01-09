@@ -17,9 +17,11 @@ Kaggle competition page: [https://www.kaggle.com/c/house-prices-advanced-regress
 - Step 5: Explore Tree Based Models
 - Step 6: Explore Stacked Models
 
+
 ### Step 1: Understand Data
 
 The data information is given by the competition. The dataset has **2919** entries of vairous information of houses and their respective sale prices. The dataset is split into a training set of 1460 entries and a test set of 1459 entries. Each sample has **79** features, including diverse information, such as total square footage, number of bedrooms, and quality of materials. 
+
 
 ### Step 2: Create Baseline Score
 
@@ -40,6 +42,7 @@ After basic data cleaning, we can now apply models. The error metric used is **R
 In order to obtain a general and accurate RMSLE from training data, **3-fold cross validation** is used. This tools splits the training set into three small sets, and uses one of them as the test set and the rest as training set. The mean RMSLE of all five small test sets is computed.
 
 I picked the most basic **linear regression** model (available in sklearn) first. However, this model raised an error indicating that the prediction contains "infinity" values, which is probably due to the unstableness of the model. Hence, I tried **linear regression with l2-norm regularization** (available in sklearn as **Ridge**) to limit the coefficients. Ridge ran with no issues and gave an RMSLE of **0.1759**, which is better than 1/3 of the competition participants. 
+
 
 ### Step 3: Feature Engineering
 
@@ -74,6 +77,7 @@ Now all of the NA values are taken care of, we can start more advanced feature e
 We can also **create new features** based on the existing features. First, some house functionalities have both quality and condition ratings. They can be multiplied to produce overall scores. Second, total numbers can be produced from multiple features. For example, total square footage of a house can be computed with its basement square footage and above-ground living area. These operations increases the total number of features from 79 to **91**.
 
 Okay. Now the Ridge model gives a better score of **0.1563** - feature engineering is helpful!
+
 
 ### Step 4: Explore Linear Models
 
@@ -136,6 +140,7 @@ Sometimes it is helpful to preprocess data before applying models. Usually the f
 
 Overall, the best linear model is Lasso with a score of 0.1105.
 
+
 ### Step 5: Explore Tree Based Models
 
 Another common group of models is the **tree based models**. In this step, I will go over Decision Tree, Random Forest, and Gradient Tree Boosting. 
@@ -159,28 +164,30 @@ On the other hand, **Gradient Tree Boosting** "stacks" multiple Trees on top of 
 The Gradient Tree Boosting gives an even better score of **0.1188**. As hypothesized, it worked best with shallow trees of two levels. 
 
 
+### Step 6: Explore Stacked Models
 
-### Markdown (Example)
+After some experiments with individual models, it might be interesting to see the results of combined models. The values predicted by various models are slightly different. One model might give very accurate predictions for certain points and another for other points. Hence, if we combine their predictions, we may get more accurate results overall. 
 
-```markdown
-Syntax highlighted code block
+First, let's try a simple **"averaging model"**, which uses the mean of predictions of all models. Since this model is not readily available, I will go ahead and write it on my own. Trust me, it's pretty straight-forward. I'm using Lasso, Ridge, ElasticNet and Gradient Tree Boosting as the base models. The averaging model gives the best score so far of **0.1084**!
 
-# Header 1
-## Header 2
-### Header 3
+Next, I want to try a more complex model - let's just call it **stacked model**. Instead of just taking the mean of predictions, this model will try to train a meta model to find the best relationship between the predictions and the ground truth. It's a little trickier to implement than the averaging model, because it needs to learn two levels of models during training. 
 
-- Bulleted
-- List
+We need to split the training set into three subsets (four or five are also fine - just follow your cross validation convention), say A, B and C. Take A as the first test subset and combine B and C as the training subset. Use [B,C] to train base models (Lasso, Ridge, ElasticNet and Gradient Tree Boosting) and predict on A. Then use [A,C] to predict B, and use [A,B] to predict C. Now we have the predictions for the entire training set, so we can move on to train the meta model. I'm using Lasso model for this case. This stacked model gives a score of **0.1094** - also pretty good!
 
-1. Numbered
-2. List
+This model works well on data that contains complex features. Make sure you don't overfit.
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
+### Conclusion
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-```
+This has been an interesting project to explore. I'm sure there are more techniques we can use - and I'm still learning as well!
+
+Let's me know if you have any thoughts/suggestions/comments! I'd be happy to discuss and experiment!
+
+
+### References (Thank you!)
+https://www.kaggle.com/apapiu/regularized-linear-models
+https://www.kaggle.com/serigne/stacked-regressions-top-4-on-leaderboard
+http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/
 
 
 ### Picture Credit

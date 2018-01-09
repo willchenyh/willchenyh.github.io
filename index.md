@@ -2,12 +2,15 @@
 
 You just found Will's data science portfolio. Hope you enjoy it and let me know what you think!
 
-### Project List
-- [#01 House Price Prediction](house_price_prediction/hp_baseline.md).
+## Project List
+
+### Data Science
+- [#01 House Price Prediction](house_price_prediction/house_price_prediction.md)
+
+### Computer Vision
+- #01 Face Recognition with CNN and Raspberry Pi (Coming soon)
 
 ### Markdown (Example)
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
 Syntax highlighted code block
@@ -25,7 +28,8 @@ Syntax highlighted code block
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
+For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+
 
