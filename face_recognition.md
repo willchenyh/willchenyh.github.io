@@ -27,7 +27,7 @@ Face detection is actually a **regression problem** -- you need to know where a 
 
 To set up the system to incorporate a **Raspberry Pi**, I plan to use the Pi as a local data collector to detect faces and send a face image to a remote server and the remote server will predict who the person is and returns the result to display on the Pi. I will use a Pi Camera to take images as it is more compatible with an RPi than USB webcams. If this system works well, we can then easily intergrate it in a smart home system.
 
-![rpi system](face_recognition/rpi_system.JPG)
+![rpi system](face_recognition/rpi_system.png)
 
 
 ### Step 2: Face Detection with OpenCV
@@ -72,13 +72,24 @@ Now we've solved the first part of the problem!
 
 ### Step 3: What's a Convolutional Neural Network?
 
-In order to achieve high accuracy on face recognition, I decided to use Convolutional Neural Networks (CNNs). CNNs are extremely powerful tools in computer vision to solve problems including image classification and segmentation. If given large dataset with good variability, CNNs are able to learn complex features very well. 
+In order to achieve high accuracy on face recognition, I decided to use **Convolutional Neural Networks (CNNs)**. CNNs are extremely powerful tools in computer vision to solve problems including image classification and segmentation. If given a large dataset with high variability, CNNs are able to learn complex features very well. For this project, we are using a CNN to classify faces.
 
-How does a CNN learn features from images? 
+How does a CNN work? To give you some intuitive ideas:
+- A CNN has convolutional and fully connected layers. 
+- **Convolutional layers** learn 2D visual features from the training images. As we go deeper into the network, the features become more complex. For example, we want the CNN to learn important features of faces, such as different eyes, hair, nose, mouth, shapes of faces, and so on. The CNN can assign those features **weights** and different combinations of weights with features correspond to different faces. Here's a good example of features learned by a CNN:
+
+![features](https://image.slidesharecdn.com/case-study-of-cnn-160501201532/95/case-study-of-convolutional-neural-network-3-638.jpg?cb=1462133741)
+
+- During **training**, the network will **adjust the weights** to achieve the best classification result. CNNs adopt **Gradient Descent** method to find the best values of weights. We can think of the classification problem as a loss function (difference between predictions and ground truth) with respect to w (weights). Our goal for training is to find the w that minimizes the loss function. Most of the time, we don't have closed form solutions for w. Hence, we have to use Gradient Descent to get to the minimum point step by step. Gradient Descent is an iterative procedure to adjust values based on current gradient. 
+
+
+- A trained model contains the best feature representation of classes, and it should work well on new images
+
 
 
 ### Picture Credits
 https://docs.opencv.org
+https://image.slidesharecdn.com/case-study-of-cnn-160501201532/95/case-study-of-convolutional-neural-network-3-638.jpg?cb=1462133741
 
 
 ### References (Thank you!)
