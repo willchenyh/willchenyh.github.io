@@ -102,29 +102,46 @@ The second thing you need to think about when finding a dataset is how much intr
 
 ![faces](https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/submissions/45750/versions/1/screenshot.jpg)
 
-Now I need to add my own face images to it. You need to create images with high variability, just as mentioned in the previously. A few hundred images with various lightings, angles, face expressions will do the trick. For this project, I don’t recommend using images that do not show a complete face. To start off, you might want to try to make the task easier for the CNN. In this way, if you encounter problems (e.g. very low accuracy), then you would know it should not be the problem of the dataset but something else. 
+Now I need to add my own face images to it. You need to **create images with high variability**, just as mentioned in the previously. A few hundred images with various lightings, angles, face expressions will do the trick. For this project, I don’t recommend using images that do not show a complete face. To start off, you might want to try to make the task easier for the CNN. In this way, if you encounter problems (e.g. very low accuracy), then you would know it should not be the problem of the dataset but something else. 
+
+Before moving on to the next step, we need to **partition the dataset into training, validation and test sets**. They should take **70%, 10% and 20%** of the dataset respectively. Make sure each set has unique images, otherwise the validation accuracy and test accuracy might be misleading.
 
 
 ### Step 5: Train a CNN
 
-When training a network, you have two options: **training from scratch** and **finetuning** from a trained model. Training from scratch takes a lot of time as all the weights are initialized as random. For most problems, it might take a couple weeks to fully converge. Finetuning, on the other hand, starts with pretrained weights from ImageNet dataset.
+When training a network, you have two options: **training from scratch** and **finetuning** from a trained model. Training from scratch takes a lot of time as all the weights are initialized as random. For most problems, it might take a couple weeks to fully converge. Finetuning, on the other hand, starts with pretrained weights from **ImageNet** dataset. ImageNet has over 14 million images across 1000 different categories. Models trained on ImageNet have learned a huge number of different features that can be transferred and applied in other image recognition problems. I will finetune a CNN with ImageNet weights to make the weights more suitable for our face recognition problem.
+
+In this project, I will use a CNN called **VGG16**. Here's the architecture of VGG16:
+
+![vgg16 architecture](https://i.stack.imgur.com/3R0Kd.png)
+
+I'm using **Keras** (Tensorflow backend) for this project. Keras is a deep learning framework great for making prototypes and it's easy to get started. Keras has built-in model for VGG16 available. I'm going to load a VGG16 model with ImageNet weights without the fully connected layers at the top. I will add new layers and then train on those layers. Here's how you do it:
+
+```
+# build the VGG16 network
+base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224,224,3)))
+base_out = base_model.output
+flat = Flatten()(base_out)
+hidden = Dense(256, activation='relu')(flat)
+drop = Dropout(0.5)(hidden)
+predictions = Dense(NUM_CLASSES, activation='softmax')(drop)
+model = Model(inputs=base_model.input, outputs=predictions)
+model.compile(optimizer=optimizers.SGD(lr=1e-4, momentum=0.9), loss='categorical_crossentropy', metrics=['accuracy'])
+```
+
+You can use model.summary() to check if your model prints out the correct architecture you want. 
+
+Then we need to read images and their labels and save them as numpy ndarrays. Once it's done, we can start the training process! Training only takes one line. When you are training, the accuracy should increase and loss should decrease. The final accuracy should be close to **99%**. After it finishes training, save the weights locally for future use.
+
+```
+# train
+model.fit(X_train, Y_train, batch_size=16, epochs=10, validation_data=(X_val, Y_val))
+# save model weights
+model.save('face_recognition_vgg16_weights.h5'))
+```
 
 
-In this project, we will use a network called VGG16. You can find an example here:
-•	https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
-There are two parts in this process. You need to train a model, which will take most of the time, and then deploy that model on new images. I provided train_vgg.py as a template for training. You need to fill in the parts with TODO to complete the task. Make sure you read the entire program before coding. Talk to the TA if you have any questions. 
-Some functions in Keras you need to know:
-•	applications.vgg16.VGG16()
-•	layers.Dropout()
-•	layers.Flatten()
-•	layers.Dense()
-•	optimizers.SGD()
-•	Model.compile()
-•	Model.fit()
-•	Model.save()
-Each epoch might take about 5 to 10 minutes. The default number of epochs (NUM_EPOCHS) is 5. When you are debugging, use only 1 epoch. Change to a higher number when you are confident that your code is correct. When you are training, the accuracy should increase and loss should decrease. The final accuracy should be close to 99%.
-After you finish training, save the weights file. You can’t push it to GitHub because it’s probably more than 100 MB. You will need this for all future prediction tasks. I recommend you save one copy on EC2 instance and another on locally on your personally computer. If you are using MobaXterm, you can easily download it. 
-Now it’s time to test your trained network on the test set. Modify test_vgg.py to complete this task. To test, you basically want to predict the labels of your test set, compare the predictions against ground truth, and then compute test accuracy. Use Model.evaluate(). Check your accuracy on the test set. Does it make sense?
+### Step 6: Connect to Raspberry Pi
 
 
 
@@ -140,3 +157,4 @@ Now it’s time to test your trained network on the test set. Modify test_vgg.py
 - http://d3kbpzbmcynnmx.cloudfront.net/wp-content/uploads/2015/11/Screen-Shot-2015-11-07-at-7.26.20-AM.png
 - https://qph.ec.quoracdn.net/main-qimg-b7a3a254830ac374818cdce3fa5a7f17
 - https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/submissions/45750/versions/1/screenshot.jpg
+- https://i.stack.imgur.com/3R0Kd.png
