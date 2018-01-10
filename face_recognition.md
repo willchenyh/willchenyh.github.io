@@ -72,7 +72,9 @@ Now we've solved the first part of the problem!
 
 ### Step 3: What's a Convolutional Neural Network?
 
-In order to achieve high accuracy on face recognition, I decided to use Convolutional Neural Networks (CNNs). 
+In order to achieve high accuracy on face recognition, I decided to use Convolutional Neural Networks (CNNs). CNNs are extremely powerful tools in computer vision to solve problems including image classification and segmentation. If given large dataset with good variability, CNNs are able to learn complex features very well. 
+
+How does a CNN learn features from images? 
 
 
 ### Picture Credits
