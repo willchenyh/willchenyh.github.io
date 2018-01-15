@@ -1,6 +1,7 @@
 ## Will's Portfolio
 
-## About Me
+
+
 I'm a M.S. student in **Machine Learning** at University of California, San Diego. This is a portfolio of my projects in data science and deep learning.
 
 ## Project List
