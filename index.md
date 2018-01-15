@@ -1,9 +1,6 @@
 ## Will's Portfolio
 
-
-### Contact
-• [Resume](Will_Chen_Resume_Portfolio) • [LinkedIn](https://www.linkedin.com/in/willchenyh/) • [Email](mailto:yuc143@eng.ucsd.edu)
-
+I'm a M.S. student in **Machine Learning** at University of California, San Diego. This is a portfolio of my projects in data science and deep learning.
 
 ## Project List
 
@@ -15,3 +12,5 @@
 - [#01 Face Recognition with CNN and Raspberry Pi](face_recognition.md)
 - #02 Plankton Analysis (Coming soon)
 
+### Contact
+• [Resume](Will_Chen_Resume_Portfolio) • [LinkedIn](https://www.linkedin.com/in/willchenyh/) • [Email](mailto:yuc143@eng.ucsd.edu)
