@@ -143,7 +143,17 @@ model.save('face_recognition_vgg16_weights.h5'))
 
 ### Step 6: Connect to Raspberry Pi
 
+Now we’ve come to the final piece of the puzzle – put everything together. What we want to achieve here is to build a system to send a newly taken face image to the cloud (AWS) and then fetch results from it. I will walk you through a basic way by using secure copy (scp). You can reference the following documentation from AWS:
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html
+Follow the “Transferring Files to Linux Instances from Linux Using SCP” section from the AWS tutorial to get familiar with the secure copy method. 
 
+Now you know how to use SCP to send and fetch data from AWS instance. The next step is to create an automatic system. My example here works as below:
+
+Set up an infinite loop on AWS to wait for new images. It checks a specific directory. Once a new image is found, the trained neural network is deployed and predicts the label of the face image. The prediction results are saved in a result.txt file. Wait for about 10 seconds, which should allow RPi to fetch the results, and then delete the face and result files.
+
+On Pi, take an image, get confirmation from user, and send it to AWS. Wait a few seconds. Then fetch the result.txt file from AWS instance and presents the results on a display with the face. After that, delete the face and result files.
+
+We can simply execute a command line in Python by using subprocess.call(command) where command is a list of strings you type when you run shell command. To check if there is new data (image or results) available, you can designate a local directory for storing the data and check that directory frequently to see if there is new file available.
 
 
 
