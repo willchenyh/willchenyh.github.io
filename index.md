@@ -15,4 +15,4 @@ I'm a M.S. student in **Machine Learning** at University of California, San Dieg
 - #02 Plankton Analysis (Coming soon)
 
 ## Contact
-• [Resume](Will_Chen_Resume_Portfolio) • [LinkedIn](https://www.linkedin.com/in/willchenyh/) • [Email](mailto:yuc143@eng.ucsd.edu)
+• [Resume](Will_Chen_Resume_Portfolio.pdf) • [LinkedIn](https://www.linkedin.com/in/willchenyh/) • [Email](mailto:yuc143@eng.ucsd.edu)
